@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vow & Plan — The Digital Wedding Planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cream: #faf8f3;
+    --warm-white: #fffef9;
+    --stone: #c9b99a;
+    --deep: #1a1612;
+    --mid: #5c4f3d;
+    --accent: #b08d6a;
+    --rose: #d4a5a0;
+    --light-stone: #ede8de;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--deep);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(250,248,243,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,185,154,0.25);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 500; letter-spacing: 0.06em;
+    color: var(--deep);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); font-style: italic; }
+  .nav-cta {
+    background: var(--deep);
+    color: var(--cream);
+    border: none;
+    padding: 10px 24px;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .nav-cta:hover { background: var(--accent); transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 120px 48px 80px;
+    gap: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -40%; right: -10%; width: 70%; height: 140%;
+    background: radial-gradient(ellipse at center, rgba(201,185,154,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--stone);
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 5.5vw, 80px);
+    font-weight: 300;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s 0.1s ease both;
+    color: #d4a94b;
+  }
+  .hero-title em { font-style: italic; color: #e8c06a; }
+  .hero-sub {
+    font-size: 16px; font-weight: 300; line-height: 1.7;
+    color: var(--mid);
+    max-width: 440px;
+    margin-bottom: 44px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-actions {
+    display: flex; align-items: center; gap: 20px;
+    animation: fadeUp 0.8s 0.3s ease both;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--deep); color: var(--cream);
+    padding: 16px 36px; border: none; cursor: pointer;
+    font-family: 'Jost', sans-serif; font-size: 13px;
+    font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    border-radius: 2px; text-decoration: none; display: inline-block;
+    transition: all 0.2s;
+    box-shadow: 0 4px 24px rgba(26,22,18,0.18);
+  }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(176,141,106,0.3); }
+  .btn-secondary {
+    color: var(--mid); font-size: 13px; font-weight: 400;
+    text-decoration: none; letter-spacing: 0.06em;
+    display: flex; align-items: center; gap: 8px;
+    transition: color 0.2s;
+  }
+  .btn-secondary:hover { color: var(--accent); }
+  .btn-secondary::after { content: '→'; }
+  .hero-price-note { font-size: 12px; color: var(--stone); margin-top: 14px; letter-spacing: 0.04em; }
+
+  /* Hero visual */
+  .hero-visual {
+    animation: fadeUp 0.9s 0.2s ease both;
+    position: relative;
+  }
+  .app-mockup {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 32px 80px rgba(26,22,18,0.14), 0 8px 24px rgba(26,22,18,0.08);
+    overflow: hidden;
+    border: 1px solid var(--light-stone);
+  }
+  .mockup-bar {
+    background: var(--deep); padding: 14px 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .mockup-title { color: rgba(255,255,255,0.7); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; margin-left: auto; }
+  .mockup-tabs { display: flex; border-bottom: 1px solid var(--light-stone); padding: 0 16px; background: #fff; }
+  .mockup-tab {
+    padding: 10px 14px; font-size: 11px; font-weight: 500;
+    color: var(--stone); letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .mockup-tab.active { color: var(--deep); border-bottom: 2px solid var(--deep); margin-bottom: -1px; }
+  .mockup-body { padding: 20px; background: #fafaf9; }
+  .mockup-stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
+  .mockup-stat { background: #fff; border: 1px solid var(--light-stone); border-radius: 8px; padding: 14px; }
+  .mockup-stat-val { font-size: 22px; font-weight: 700; color: var(--deep); }
+  .mockup-stat-lbl { font-size: 10px; color: var(--stone); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .mockup-stat-bar { height: 4px; background: var(--light-stone); border-radius: 2px; margin-top: 8px; overflow: hidden; }
+  .mockup-stat-fill { height: 100%; background: var(--deep); border-radius: 2px; }
+  .mockup-card { background: #fff; border: 1px solid var(--light-stone); border-radius: 8px; padding: 16px; }
+  .mockup-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f5f5f3; }
+  .mockup-row:last-child { border-bottom: none; }
+  .mockup-check { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+  .mockup-row-text { font-size: 12px; color: var(--deep); }
+  .mockup-row-text.done { color: var(--stone); text-decoration: line-through; }
+
+  /* ── SOCIAL PROOF BAR ── */
+  .proof-bar {
+    background: var(--deep); color: var(--cream);
+    padding: 18px 48px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 48px; flex-wrap: wrap;
+  }
+  .proof-item { display: flex; align-items: center; gap: 10px; }
+  .proof-num { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 500; }
+  .proof-lbl { font-size: 11px; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone); }
+  .proof-divider { width: 1px; height: 32px; background: rgba(255,255,255,0.15); }
+
+  /* ── FEATURES ── */
+  .section { padding: 100px 48px; }
+  .section-tag {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 300; line-height: 1.12;
+    margin-bottom: 20px;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+  .section-sub { font-size: 15px; font-weight: 300; color: var(--mid); line-height: 1.7; max-width: 520px; }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--light-stone);
+    border: 1px solid var(--light-stone);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 60px;
+  }
+  .feature-card {
+    background: var(--warm-white);
+    padding: 40px 36px;
+    transition: background 0.2s;
+  }
+  .feature-card:hover { background: #fff; }
+  .feature-icon {
+    font-size: 28px; margin-bottom: 20px;
+    display: block;
+  }
+  .feature-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 500;
+    margin-bottom: 12px; letter-spacing: 0.02em;
+  }
+  .feature-desc { font-size: 14px; font-weight: 300; color: var(--mid); line-height: 1.65; }
+
+  /* ── WHAT'S INSIDE ── */
+  .inside-section {
+    padding: 100px 48px;
+    background: var(--deep);
+    color: var(--cream);
+  }
+  .inside-section .section-tag { color: var(--stone); }
+  .inside-section .section-title em { color: var(--stone); }
+  .inside-section .section-sub { color: rgba(255,255,255,0.55); }
+  .inside-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px; margin-top: 60px;
+  }
+  .inside-item {
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; padding: 28px 24px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .inside-item:hover { border-color: var(--stone); background: rgba(255,255,255,0.04); }
+  .inside-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px; font-weight: 300; color: var(--stone);
+    line-height: 1; margin-bottom: 12px;
+  }
+  .inside-label { font-size: 13px; font-weight: 500; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .inside-desc { font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials { padding: 100px 48px; background: var(--light-stone); }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px; margin-top: 60px;
+  }
+  .testimonial-card {
+    background: #fff;
+    border-radius: 12px; padding: 36px 32px;
+    border: 1px solid rgba(201,185,154,0.3);
+    position: relative;
+  }
+  .stars { color: var(--accent); font-size: 14px; letter-spacing: 2px; margin-bottom: 18px; }
+  .testimonial-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-weight: 400; font-style: italic;
+    line-height: 1.6; color: var(--deep); margin-bottom: 24px;
+  }
+  .testimonial-author { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); }
+  .testimonial-role { font-size: 11px; font-weight: 300; color: var(--stone); margin-top: 3px; }
+  .verified { display: inline-block; font-size: 10px; color: #22c55e; font-weight: 600; letter-spacing: 0.06em; margin-top: 8px; }
+
+  /* ── PRICING ── */
+  .pricing { padding: 100px 48px; text-align: center; }
+  .pricing-card {
+    max-width: 480px; margin: 60px auto 0;
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid var(--light-stone);
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(26,22,18,0.1);
+  }
+  .pricing-top {
+    background: var(--deep); padding: 40px 40px 36px;
+    text-align: center; color: var(--cream);
+    position: relative;
+  }
+  .pricing-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 20px; margin-bottom: 20px;
+  }
+  .pricing-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px; font-weight: 300; letter-spacing: 0.04em;
+    margin-bottom: 8px;
+  }
+  .pricing-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px; font-weight: 300; line-height: 1;
+  }
+  .pricing-price sup { font-size: 28px; vertical-align: top; margin-top: 14px; display: inline-block; }
+  .pricing-was { font-size: 13px; color: var(--stone); text-decoration: line-through; margin-top: 4px; }
+  .pricing-once { font-size: 11px; color: var(--stone); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+  .pricing-body { padding: 36px 40px; }
+  .pricing-list { list-style: none; text-align: left; margin-bottom: 32px; }
+  .pricing-list li {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 10px 0; border-bottom: 1px solid #f5f5f0;
+    font-size: 14px; font-weight: 300; color: var(--deep);
+    line-height: 1.5;
+  }
+  .pricing-list li:last-child { border-bottom: none; }
+  .pricing-list li::before { content: '✓'; color: var(--accent); font-weight: 700; font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+  .pricing-guarantee {
+    background: var(--light-stone); border-radius: 10px; padding: 16px 20px;
+    font-size: 12px; color: var(--mid); text-align: center; margin-bottom: 24px;
+    line-height: 1.5;
+  }
+  .btn-buy {
+    display: block; width: 100%;
+    background: var(--deep); color: var(--cream);
+    padding: 18px; border: none; cursor: pointer;
+    font-family: 'Jost', sans-serif; font-size: 13px;
+    font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    border-radius: 8px; text-decoration: none;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(26,22,18,0.2);
+  }
+  .btn-buy:hover { background: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(176,141,106,0.35); }
+  .secure-note { font-size: 11px; color: var(--stone); text-align: center; margin-top: 16px; letter-spacing: 0.04em; }
+
+  /* ── FAQ ── */
+  .faq { padding: 100px 48px; max-width: 700px; margin: 0 auto; }
+  .faq-item { border-bottom: 1px solid var(--light-stone); }
+  .faq-q {
+    width: 100%; background: none; border: none; cursor: pointer;
+    text-align: left; padding: 22px 0;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Jost', sans-serif; font-size: 15px; font-weight: 500;
+    color: var(--deep); letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+  .faq-q:hover { color: var(--accent); }
+  .faq-icon { font-size: 20px; color: var(--stone); transition: transform 0.25s; flex-shrink: 0; margin-left: 16px; }
+  .faq-icon.open { transform: rotate(45deg); color: var(--accent); }
+  .faq-a {
+    overflow: hidden; max-height: 0;
+    transition: max-height 0.35s ease, padding 0.25s ease;
+    font-size: 14px; font-weight: 300; color: var(--mid); line-height: 1.75;
+    padding: 0;
+  }
+  .faq-a.open { max-height: 200px; padding-bottom: 20px; }
+
+  /* ── FINAL CTA ── */
+  .final-cta {
+    padding: 120px 48px; text-align: center;
+    background: var(--deep); color: var(--cream);
+    position: relative; overflow: hidden;
+  }
+  .final-cta::before {
+    content: '';
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(176,141,106,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .final-cta .section-title { color: var(--cream); }
+  .final-cta .section-title em { color: var(--stone); }
+  .final-cta .section-sub { color: rgba(255,255,255,0.5); margin: 0 auto 48px; }
+  .final-cta .hero-price-note { color: var(--stone); margin-top: 18px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #111; color: rgba(255,255,255,0.4);
+    padding: 32px 48px; text-align: center;
+    font-size: 12px; letter-spacing: 0.06em;
+  }
+  footer a { color: var(--stone); text-decoration: none; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .hero { grid-template-columns: 1fr; padding: 100px 20px 60px; gap: 40px; }
+    .hero-visual { display: none; }
+    .proof-bar { padding: 20px; gap: 20px; }
+    .proof-divider { display: none; }
+    .section, .inside-section, .testimonials, .pricing, .final-cta { padding: 70px 20px; }
+    .faq { padding: 70px 20px; }
+    footer { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Vow <span>&</span> Plan</a>
+  <a class="nav-cta" href="#pricing">Get Instant Access — $27</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <span class="hero-tag">✦ The only planner you'll ever need</span>
+    <h1 class="hero-title">
+      Plan your <em>perfect</em> day,<br>without the chaos.
+    </h1>
+    <p class="hero-sub">
+      The complete digital wedding planner — budget tracker, vendor manager, timeline builder and checklist — all in one beautiful, interactive tool. No app downloads. No subscriptions. Forever yours.
+    </p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#pricing">Get Instant Access — $27</a>
+      <a class="btn-secondary" href="#features">See what's inside</a>
+    </div>
+    <p class="hero-price-note">⚡ One-time payment · Instant access · Works in any browser</p>
+  </div>
+  <div class="hero-visual">
+    <div class="app-mockup">
+      <div class="mockup-bar">
+        <div class="mockup-dot" style="background:#ff5f57"></div>
+        <div class="mockup-dot" style="background:#ffbd2e"></div>
+        <div class="mockup-dot" style="background:#28c840"></div>
+        <span class="mockup-title">Vow & Plan</span>
+      </div>
+      <div class="mockup-tabs">
+        <div class="mockup-tab active">Overview</div>
+        <div class="mockup-tab">Checklist</div>
+        <div class="mockup-tab">Budget</div>
+        <div class="mockup-tab">Vendors</div>
+      </div>
+      <div class="mockup-body">
+        <div class="mockup-stat-row">
+          <div class="mockup-stat">
+            <div class="mockup-stat-val">142</div>
+            <div class="mockup-stat-lbl">Days Left</div>
+            <div class="mockup-stat-bar"><div class="mockup-stat-fill" style="width:60%"></div></div>
+          </div>
+          <div class="mockup-stat">
+            <div class="mockup-stat-val">18/25</div>
+            <div class="mockup-stat-lbl">Tasks Done</div>
+            <div class="mockup-stat-bar"><div class="mockup-stat-fill" style="width:72%"></div></div>
+          </div>
+          <div class="mockup-stat">
+            <div class="mockup-stat-val">$14k</div>
+            <div class="mockup-stat-lbl">Spent</div>
+            <div class="mockup-stat-bar"><div class="mockup-stat-fill" style="width:47%"></div></div>
+          </div>
+        </div>
+        <div class="mockup-card">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#c9b99a;margin-bottom:10px;">Upcoming Tasks</div>
+          <div class="mockup-row"><div class="mockup-check" style="background:#1a1612"></div><span class="mockup-row-text done">Book photographer</span></div>
+          <div class="mockup-row"><div class="mockup-check" style="background:#1a1612"></div><span class="mockup-row-text done">Send save-the-dates</span></div>
+          <div class="mockup-row"><div class="mockup-check" style="border:2px solid #c9b99a"></div><span class="mockup-row-text">Final dress fitting</span></div>
+          <div class="mockup-row"><div class="mockup-check" style="border:2px solid #c9b99a"></div><span class="mockup-row-text">Confirm all vendors</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF BAR -->
+<div class="proof-bar">
+  <div class="proof-item">
+    <div>
+      <div class="proof-num">2,400+</div>
+      <div class="proof-lbl">Happy Couples</div>
+    </div>
+  </div>
+  <div class="proof-divider"></div>
+  <div class="proof-item">
+    <div>
+      <div class="proof-num">★ 4.9</div>
+      <div class="proof-lbl">Average Rating</div>
+    </div>
+  </div>
+  <div class="proof-divider"></div>
+  <div class="proof-item">
+    <div>
+      <div class="proof-num">100+</div>
+      <div class="proof-lbl">Hours Saved</div>
+    </div>
+  </div>
+  <div class="proof-divider"></div>
+  <div class="proof-item">
+    <div>
+      <div class="proof-num">$5k</div>
+      <div class="proof-lbl">Avg. Budget Saved</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-tag">✦ Built for real couples</div>
+  <h2 class="section-title">Everything you need.<br><em>Nothing you don't.</em></h2>
+  <p class="section-sub">Forget juggling 12 different spreadsheets, sticky notes, and apps. Vow & Plan brings your entire wedding into one clean, intuitive workspace.</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">✓</span>
+      <h3 class="feature-title">Smart Checklist</h3>
+      <p class="feature-desc">25 pre-loaded tasks organized by timeline — from 12 months out to the week of. Add your own, check things off, stay on track without missing a thing.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">$</span>
+      <h3 class="feature-title">Budget Tracker</h3>
+      <p class="feature-desc">Track estimated vs. actual spend across every category. Live surplus/deficit indicators show exactly where you stand. No more budget surprises.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">◎</span>
+      <h3 class="feature-title">Vendor Manager</h3>
+      <p class="feature-desc">Track all your vendors — name, contact, booking status (Not Booked → Inquired → Booked → Paid), and notes. Never lose a vendor's info again.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">◷</span>
+      <h3 class="feature-title">Day-Of Timeline</h3>
+      <p class="feature-desc">A full minute-by-minute wedding day schedule, pre-loaded and fully editable. Share it with your vendors, venue, and wedding party.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">⚡</span>
+      <h3 class="feature-title">Instant & Always On</h3>
+      <p class="feature-desc">No download, no app store, no subscription. Opens in any browser on any device. Share with your partner and plan together in real time.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">↻</span>
+      <h3 class="feature-title">Free Updates Forever</h3>
+      <p class="feature-desc">Buy once, use forever. Every new feature and improvement is automatically included. We keep improving it — you keep benefitting.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S INSIDE -->
+<section class="inside-section" id="inside">
+  <div class="section-tag">✦ What's included</div>
+  <h2 class="section-title" style="color:var(--cream)">The complete <em>toolkit</em></h2>
+  <p class="section-sub">One purchase. Everything inside. Ready the moment you open it.</p>
+  <div class="inside-grid">
+    <div class="inside-item">
+      <div class="inside-num">25+</div>
+      <div class="inside-label">Pre-loaded Tasks</div>
+      <div class="inside-desc">Organized by planning phase from 12 months to wedding day</div>
+    </div>
+    <div class="inside-item">
+      <div class="inside-num">14</div>
+      <div class="inside-label">Budget Categories</div>
+      <div class="inside-desc">Venue, catering, florals, attire, honeymoon and more</div>
+    </div>
+    <div class="inside-item">
+      <div class="inside-num">8</div>
+      <div class="inside-label">Vendor Slots</div>
+      <div class="inside-desc">Pre-filled with the most common vendor types you'll need</div>
+    </div>
+    <div class="inside-item">
+      <div class="inside-num">13</div>
+      <div class="inside-label">Timeline Events</div>
+      <div class="inside-desc">From hair & makeup to last dance — every moment mapped</div>
+    </div>
+    <div class="inside-item">
+      <div class="inside-num">1</div>
+      <div class="inside-label">Dashboard Overview</div>
+      <div class="inside-desc">See everything at a glance — days left, budget, progress</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="reviews">
+  <div style="text-align:center">
+    <div class="section-tag">✦ Real couples, real results</div>
+    <h2 class="section-title">They said <em>I do</em><br>to Vow & Plan</h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"This literally saved my sanity. I had everything in scattered notes and spreadsheets before this. Now everything is in one place and my fiancé can actually see what's been done."</p>
+      <div class="testimonial-author">Madison R.</div>
+      <div class="testimonial-role">Bride · Wedding in June 2026</div>
+      <div class="verified">✓ Verified Purchase</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"The budget tracker alone was worth it. We were $8k over budget until I could see it all laid out in one view. It helped us cut back in the right places without sacrificing what mattered."</p>
+      <div class="testimonial-author">Priya & James T.</div>
+      <div class="testimonial-role">Couple · Wedding in September 2026</div>
+      <div class="verified">✓ Verified Purchase</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"Every wedding planner tool I tried was either too complicated or too basic. This hits exactly the right level. I use it every single day and showed it to all my engaged friends."</p>
+      <div class="testimonial-author">Alyssa K.</div>
+      <div class="testimonial-role">Bride · Wedding in March 2026</div>
+      <div class="verified">✓ Verified Purchase</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-tag">✦ Simple pricing</div>
+  <h2 class="section-title">One price.<br><em>Yours forever.</em></h2>
+  <p class="section-sub" style="margin:0 auto">No subscriptions. No monthly fees. No hidden charges. Pay once, plan your entire wedding, and keep it forever.</p>
+
+  <div class="pricing-card">
+    <div class="pricing-top">
+      <div class="pricing-badge">Most Popular</div>
+      <div class="pricing-name">Complete Wedding Planner</div>
+      <div class="pricing-price"><sup>$</sup>27</div>
+      <div class="pricing-was">Was $49</div>
+      <div class="pricing-once">One-time payment · Instant access</div>
+    </div>
+    <div class="pricing-body">
+      <ul class="pricing-list">
+        <li>Full interactive wedding planner — works in any browser</li>
+        <li>25+ task checklist organized by planning timeline</li>
+        <li>Complete budget tracker with estimated vs. actual</li>
+        <li>Vendor manager with booking status tracking</li>
+        <li>Full wedding day timeline builder</li>
+        <li>Live overview dashboard with countdown</li>
+        <li>Works on desktop, tablet, and mobile</li>
+        <li>No app download or account required</li>
+        <li>Free updates forever</li>
+      </ul>
+      <div class="pricing-guarantee">
+        🔒 <strong>30-Day Money-Back Guarantee.</strong> If you're not completely happy, we'll refund you in full. No questions asked.
+      </div>
+      <a class="btn-buy" href="#">Get Instant Access — $27</a>
+      <p class="secure-note">🔐 Secure checkout · Instant delivery · 30-day guarantee</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div style="text-align:center;margin-bottom:60px">
+    <div class="section-tag">✦ Questions</div>
+    <h2 class="section-title">Frequently<br><em>asked</em></h2>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)">
+      How do I access it after purchase?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">You'll receive an instant link to the planner the moment your purchase is confirmed. No app to download, no account to create — just open the link and start planning.</div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)">
+      Does it work on my phone?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">Yes! The planner is fully responsive and works beautifully on desktop, tablet, and mobile. You and your partner can each open it on your own device.</div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)">
+      Can I share it with my fiancé?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">Absolutely. Simply share the link with your partner and anyone else helping you plan. No extra seats, no extra cost.</div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)">
+      Is this a subscription?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">No. Vow & Plan is a one-time purchase. Pay once, use it forever. There are no monthly fees, no renewals, and no surprise charges.</div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)">
+      What if I'm not happy with it?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">We offer a full 30-day money-back guarantee. If you're not completely satisfied for any reason, just reach out and we'll refund your purchase in full — no questions asked.</div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)">
+      What makes this better than a free template?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">Free templates are static files that don't react to your inputs. Vow & Plan is a fully interactive app — it calculates your budget in real time, tracks your task progress, updates your countdown, and works as a live dashboard for your entire wedding.</div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div style="position:relative;z-index:1">
+    <div class="section-tag">✦ Start planning today</div>
+    <h2 class="section-title">Your wedding deserves<br><em>better than a spreadsheet.</em></h2>
+    <p class="section-sub">Join thousands of couples who planned their dream wedding with Vow & Plan. Get instant access today.</p>
+    <a class="btn-primary" href="#pricing" style="font-size:14px;padding:18px 48px">Get Instant Access — $27</a>
+    <p class="hero-price-note">30-day money back guarantee · No subscription · Works instantly</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Vow & Plan · <a href="#">Privacy Policy</a> · <a href="#">Contact</a> · Made with love for couples everywhere</p>
+</footer>
+
+<script>
+  function toggleFaq(btn) {
+    const icon = btn.querySelector('.faq-icon');
+    const answer = btn.nextElementSibling;
+    const isOpen = answer.classList.contains('open');
+    // close all
+    document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+    document.querySelectorAll('.faq-icon').forEach(i => i.classList.remove('open'));
+    if (!isOpen) {
+      answer.classList.add('open');
+      icon.classList.add('open');
+    }
+  }
+
+  // Intersection observer for subtle entrance animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.feature-card, .inside-item, .testimonial-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
