@@ -2,8 +2,9 @@
   "name": "vow-and-plan",
   "version": "1.0.0",
   "dependencies": {
-    "react" "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "build": "react-scripts build",
